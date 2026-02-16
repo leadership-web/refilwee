@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Choose You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 30% 20%, #2b0036 0%, #4a003f 30%, #a44c9e 65%, #ffd6e8 100%);
+            font-family: 'Playfair Display', serif;
+            color: white;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Container for the content */
+        .container {
+            z-index: 2;
+            padding: 28px;
+            width: min(820px, 94%);
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255,200,230,0.04), rgba(255,240,245,0.02));
+            border-radius: 18px;
+            padding: 36px 40px;
+            box-shadow: 0 30px 90px rgba(90,10,50,0.36);
+            border: 1px solid rgba(255,230,240,0.06);
+            backdrop-filter: blur(10px) saturate(140%);
+            transition: transform 260ms ease, box-shadow 260ms ease;
+        }
+
+        /* Profile Image / Avatar */
+        .avatar-container {
+            width: 160px;
+            height: 160px;
+            background-image: url('pis/1.jpeg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            box-shadow: 0 12px 36px rgba(180,60,120,0.18);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+        .avatar-container::after{ content:''; position:absolute; inset:-4px; border-radius:50%; background: linear-gradient(90deg,#ffd36a,#ff8fc0); z-index:-1; }
+
+        /* Floating Bubble Text */
+        .speech-bubble {
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+            backdrop-filter: blur(4px);
+            padding: 12px 22px;
+            border-radius: 20px;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 230, 240, 0.06);
+            color: rgba(255,245,250,0.98);
+            font-style: italic;
+        }
+
+        /* Timeline Text */
+        .subtitle {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            opacity: 0.95;
+            color: rgba(255,240,245,0.9);
+        }
+
+        .years {
+            font-size: 2.6rem;
+            margin: 8px 0 18px;
+            font-weight: 300;
+            color: #ffd36a;
+            text-shadow: 0 6px 18px rgba(40,10,30,0.18);
+        }
+
+        /* Main Declaration */
+        .main-text {
+            font-size: 2rem;
+            margin-top: 18px;
+            font-family: 'Dancing Script', cursive;
+            letter-spacing: 0.6px;
+        }
+
+        .name {
+            font-style: normal;
+            color: #ffd36a;
+            font-weight: 700;
+            text-shadow: 0 8px 30px rgba(255,180,120,0.06);
+        }
+
+        .decor-underline {
+            height: 8px;
+            width: 120px;
+            margin: 12px auto 0;
+            background: linear-gradient(90deg,#ffd36a,#ff8fc0,#c85ad6);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(200,80,160,0.14);
+            animation: pulse 2200ms ease-in-out infinite;
+        }
+
+        @keyframes pulse{ 0%{ transform: scaleX(0.98); opacity:0.92 }50%{ transform: scaleX(1.02); opacity:1 }100%{ transform: scaleX(0.98); opacity:0.92 } }
+
+        .footer-note {
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 2.6px;
+            margin-top: 18px;
+            opacity: 0.95;
+            color: #fff6ea;
+            font-weight: 600;
+        }
+
+        /* Simple Confetti Effect */
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .confetti .heart {
+            position: absolute;
+            font-size: 18px;
+            opacity: 0.95;
+            animation: floatUp 6s linear infinite;
+            transform-origin: center;
+            filter: drop-shadow(0 6px 10px rgba(160,30,80,0.18));
+        }
+
+        .confetti .heart:nth-child(1){ left:8%; animation-delay:0s;}
+        .confetti .heart:nth-child(2){ left:22%; animation-delay:0.8s; font-size:20px}
+        .confetti .heart:nth-child(3){ left:38%; animation-delay:1.6s;}
+        .confetti .heart:nth-child(4){ left:56%; animation-delay:2.2s; font-size:22px}
+        .confetti .heart:nth-child(5){ left:74%; animation-delay:3s;}
+        .confetti .heart:nth-child(6){ left:88%; animation-delay:3.6s; font-size:18px}
+
+        @keyframes floatUp{
+            0%{ transform: translateY(30vh) rotate(0deg) scale(1); opacity:0 }
+            10%{ opacity:1 }
+            50%{ transform: translateY(-8vh) rotate(12deg) scale(1.05) }
+            100%{ transform: translateY(-110vh) rotate(30deg) scale(0.9); opacity:0 }
+        }
+        .card:hover{ transform: translateY(-8px) scale(1.01); box-shadow: 0 40px 120px rgba(90,10,50,0.42); }
+        /* Slideshow styles */
+        .slideshow{ width:160px; height:160px; margin:0 auto 20px; position:relative; border-radius:50%; overflow:hidden; }
+        .slideshow .slides{ position:relative; width:100%; height:100%; }
+        .slideshow .slide{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 600ms ease; }
+        .slideshow .slide.active{ opacity:1; }
+        .slide-btn{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.28); border:none; color:white; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter: blur(4px); }
+        .slide-btn.prev{ left:8px; }
+        .slide-btn.next{ right:8px; }
+        .slide-btn:hover{ background:rgba(0,0,0,0.42); }
+        .dots{ display:flex; gap:8px; justify-content:center; margin-top:10px; }
+        .dot{ width:10px; height:10px; background:rgba(255,255,255,0.24); border-radius:50%; border:none; cursor:pointer; }
+        .dot.active{ background:linear-gradient(90deg,#ffd36a,#ff8fc0); box-shadow:0 6px 18px rgba(200,80,160,0.14); }
+    </style>
+</head>
+    <body>
+
+    <div class="container">
+        <div class="card">
+            <div class="slideshow" aria-label="Photo slideshow">
+                <div class="slides">
+                    <img src="pis/1.jpeg" class="slide" alt="slide 1">
+                    <img src="pis/2.jpeg" class="slide" alt="slide 2">
+                    <img src="pis/3.jpeg" class="slide" alt="slide 3">
+                    <img src="pis/4.jpeg" class="slide" alt="slide 4">
+                    <img src="pis/5.jpeg" class="slide" alt="slide 5">
+                    <img src="pis/6.jpeg" class="slide" alt="slide 6">
+                    <img src="pis/7.jpeg" class="slide" alt="slide 7">
+                </div>
+                <button class="slide-btn prev" aria-label="Previous">‹</button>
+                <button class="slide-btn next" aria-label="Next">›</button>
+                <div class="dots" aria-hidden="false">
+                    <button class="dot" data-index="0"></button>
+                    <button class="dot" data-index="1"></button>
+                    <button class="dot" data-index="2"></button>
+                    <button class="dot" data-index="3"></button>
+                    <button class="dot" data-index="4"></button>
+                    <button class="dot" data-index="5"></button>
+                    <button class="dot" data-index="6"></button>
+                </div>
+            </div>
+
+            <div class="speech-bubble">Pretty face... I can't wait to do this to your cheeks 😊💞</div>
+
+            <div class="subtitle">♥ FROM GRADE STRANGERS TO LOVERS ♥</div>
+            <div class="years">20 &rarr; 2026</div>
+
+            <div class="main-text">I choose you, <span class="name">Refilwe</span></div>
+            <div class="decor-underline"></div>
+
+            <div class="footer-note">QUEEN OF MY HEART, MY FOREVER, MY HOME 🎶</div>
+        </div>
+    </div>
+
+    <div class="confetti" aria-hidden="true">
+        <span class="heart">💖</span>
+        <span class="heart">💗</span>
+        <span class="heart">💕</span>
+        <span class="heart">💞</span>
+        <span class="heart">💓</span>
+        <span class="heart">💘</span>
+    </div>
+</body>
+
+<script>
+// Lightweight slideshow: autoplay + arrows + dots
+(function(){
+    const slides = Array.from(document.querySelectorAll('.slideshow .slide'));
+    const dots = Array.from(document.querySelectorAll('.slideshow .dot'));
+    const nextBtn = document.querySelector('.slideshow .next');
+    const prevBtn = document.querySelector('.slideshow .prev');
+    if(!slides.length) return;
+    let idx = 0, timer = null;
+    function show(i){
+        slides.forEach(s=>s.classList.remove('active'));
+        dots.forEach(d=>d.classList.remove('active'));
+        slides[i].classList.add('active');
+        if(dots[i]) dots[i].classList.add('active');
+        idx = i;
+    }
+    function next(){ show((idx+1)%slides.length); }
+    function prev(){ show((idx-1+slides.length)%slides.length); }
+    nextBtn && nextBtn.addEventListener('click', ()=>{ next(); reset(); });
+    prevBtn && prevBtn.addEventListener('click', ()=>{ prev(); reset(); });
+    dots.forEach((d,i)=> d.addEventListener('click', ()=>{ show(i); reset(); }));
+    function start(){ timer = setInterval(next, 3500); }
+    function stop(){ if(timer) { clearInterval(timer); timer = null; } }
+    function reset(){ stop(); start(); }
+    const container = document.querySelector('.slideshow');
+    container && container.addEventListener('mouseenter', stop);
+    container && container.addEventListener('mouseleave', start);
+    show(0);
+    start();
+})();
+</script>
+
+</html>
+</body>
+</html>

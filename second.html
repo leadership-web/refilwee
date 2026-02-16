@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday</title>
+    <link rel="stylesheet" href="second.css">
+</head>
+<body>
+
+    <section class="page section-1">
+        <canvas class="fireworks-canvas" aria-hidden="true"></canvas>
+        <div class="overlay stars"></div>
+        <div class="container">
+            <img src="pis/1.jpeg" alt="photo" class="hero-photo">
+          
+            <div class="badge-label">Setagane keabetswe Lucia</div>
+            <h1 class="main-title">When I First Saw You</h1>
+            <p class="description">From the moment our eyes met, I knew there was<br>something special about you. Something worth waiting for.</p>
+          
+        </div>
+    </section>
+
+    <section class="page section-2">
+        <div class="overlay pattern-overlay"></div>
+        <div class="floating-heart s2-1">❤</div>
+        <div class="floating-heart s2-2">❤</div>
+        <div class="container">
+            <div class="icon-circle pulse">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </div>
+            <div class="badge-label">Growing Closer</div>
+            <h1 class="main-title">Every Moment Together</h1>
+            <p class="description">Through laughter, conversations, and quiet moments—<br>every second with you has been a gift I treasure.</p>
+            <div class="accent-line"></div>
+               <div class="floating-heart s2-1">❤</div>
+        <div class="floating-heart s2-2">❤</div>
+        </div>
+    </section>
+
+    <section class="page section-3">
+        <div class="overlay linen-overlay"></div>
+        <div class="floating-petal p1">❀</div>
+        <div class="floating-petal p2">❀</div>
+        <div class="container">
+            <div class="icon-circle">
+                <img src="pis/1.jpeg" alt="photo" class="icon-circle-img">
+            </div>
+            <div class="badge-label valentine">This Birthday</div>
+            <h1 class="main-title">Today <span class="ampersand">&</span> Always</h1>
+            <p class="description">Today I celebrate you, us, and everything we share. You're<br>my heart, my smile, my everything.</p>
+            <div class="quote">May this day remind you of how loved you are — today and always.</div>
+        </div>
+    </section>
+
+    <section class="page section-4">
+        <div class="overlay stars"></div>
+        <div class="floating-heart h1">❤</div>
+        <div class="floating-heart h2">❤</div>
+        <div class="floating-heart h3">❤</div>
+        
+        <div class="container">
+ <div class="icon-circle">
+                <img src="pis/1.jpeg" alt="photo" class="icon-circle-img">
+            </div>
+            <h1 class="main-title">One More Thing...</h1>
+            <p class="description normal">There's a special Birthday message waiting for you</p>
+            <a href="three.html" class="cta-button">READ YOUR LETTER ❤</a>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // Lightweight fireworks for section-1 only
+        (function(){
+            const canvas = document.querySelector('.section-1 .fireworks-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resize(){
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = Math.round(rect.width * devicePixelRatio);
+                canvas.height = Math.round(rect.height * devicePixelRatio);
+                ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+            }
+
+            function spawn(x,y){
+                const hue = Math.random()*360;
+                const count = 16 + Math.floor(Math.random()*16);
+                for(let i=0;i<count;i++){
+                    const angle = Math.random()*Math.PI*2;
+                    const speed = 1 + Math.random()*3;
+                    particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,age:0,life:50+Math.random()*40,hue,size:2+Math.random()*3});
+                }
+            }
+
+            function step(){
+                try {
+                    const w = canvas.width/devicePixelRatio, h = canvas.height/devicePixelRatio;
+                    ctx.fillStyle = 'rgba(10,8,20,0.12)';
+                    ctx.fillRect(0,0,w,h);
+                    for(let i=particles.length-1;i>=0;i--){
+                        const p = particles[i];
+                        p.vy += 0.06; p.vx *= 0.998; p.vy *= 0.998;
+                        p.x += p.vx; p.y += p.vy; p.age++;
+                        const t = p.age / p.life;
+                        const alpha = Math.max(0, 1 - t);
+                        ctx.beginPath(); ctx.fillStyle = 'hsla(' + p.hue + ',80%,60%,' + alpha + ')';
+                        ctx.arc(p.x,p.y,p.size*(1-t),0,Math.PI*2); ctx.fill();
+                        if (p.age >= p.life) particles.splice(i,1);
+                    }
+                } catch (err) {
+                    // attempt to recover: clear particles and resize canvas
+                    particles = [];
+                    try { resize(); } catch(e){}
+                }
+                requestAnimationFrame(step);
+            }
+
+            function launchRandom(){
+                try {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = 20 + Math.random()*(Math.max(40, rect.width)-40);
+                    const y = 40 + Math.random()*(Math.max(40, rect.height)*0.4);
+                    spawn(x,y);
+                } catch (err) {
+                    // ignore spawn errors
+                }
+            }
+
+            resize(); window.addEventListener('resize', resize);
+            step();
+            // more frequent bursts for a continuous effect
+            const fwInterval = setInterval(()=>{ const bursts=1+Math.floor(Math.random()*3); for(let i=0;i<bursts;i++) setTimeout(launchRandom,i*90); }, 300);
+            // initial stronger bursts
+            for(let i=0;i<6;i++) setTimeout(launchRandom,i*140);
+
+            // Ensure fireworks resume/produce bursts when tab becomes visible again
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    for (let i=0;i<8;i++) setTimeout(launchRandom, i * 100);
+                    requestAnimationFrame(step);
+                }
+            });
+
+            // Global error handler: try to restart bursts if an error occurs
+            window.addEventListener('error', () => {
+                try {
+                    for (let i=0;i<6;i++) setTimeout(launchRandom, i * 120);
+                } catch(e){}
+            });
+        })();
+    </script>
+</body>
+</html>

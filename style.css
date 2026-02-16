@@ -1,0 +1,218 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background: radial-gradient(circle at center, #8a2387, #e94057, #f27121);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+    color: white;
+    font-family: 'Playfair Display', serif;
+    overflow: hidden;
+    transition: background 1s ease;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.screen {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hidden {
+    display: none !important;
+    opacity: 0;
+}
+
+/* Page 1 Specifics */
+.page-1-decorated {
+    position: relative;
+    overflow: hidden;
+}
+
+.flower-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.flower {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.6;
+    animation: rainFall 8s linear infinite;
+}
+
+.flower-1 { top: 10%; left: 5%; animation-delay: 0s; }
+.flower-2 { top: 15%; right: 8%; animation-delay: 0.5s; }
+.flower-3 { top: 60%; left: 3%; animation-delay: 1s; }
+.flower-4 { top: 70%; right: 5%; animation-delay: 1.5s; }
+.flower-5 { top: 25%; left: 8%; animation-delay: 2s; }
+.flower-6 { top: 80%; left: 12%; animation-delay: 2.5s; }
+.flower-7 { top: 40%; right: 10%; animation-delay: 3s; }
+.flower-8 { top: 55%; right: 3%; animation-delay: 3.5s; }
+
+.heart {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.7;
+    animation: rainFall 10s linear infinite;
+}
+
+.heart-1 { top: 20%; left: 15%; animation-delay: 0.2s; }
+.heart-2 { top: 45%; right: 15%; animation-delay: 0.7s; }
+.heart-3 { top: 75%; left: 20%; animation-delay: 1.2s; }
+.heart-4 { top: 35%; right: 8%; animation-delay: 1.8s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0px); }
+    25% { transform: translateX(-0.5px); }
+    75% { transform: translateX(0.5px); }
+}
+
+@keyframes rainFall {
+    0% { transform: translateY(-100px) translateX(0px); opacity: 0.8; }
+    50% { transform: translateY(50vh) translateX(10px); opacity: 0.6; }
+    100% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+}
+
+/* Small image flakes that fall like the emoji flowers/hearts */
+.falling-img {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.9;
+    transform-origin: center;
+    animation-name: imgFall;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+}
+
+@keyframes imgFall {
+    0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+    60% { transform: translateY(45vh) translateX(15px) rotate(15deg); opacity: 0.9; }
+    100% { transform: translateY(110vh) translateX(-5px) rotate(30deg); opacity: 0; }
+}
+
+/* Small circular images inside page-1 (use class="small-circle" on <img>) */
+.page-1-decorated img.small-circle,
+.page-1-decorated .flower-bg img.small-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    display: inline-block;
+    pointer-events: none;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 10;
+}
+
+.date-label { letter-spacing: 5px; text-transform: uppercase; margin: 10px 0 40px; opacity: 0; }
+.italic-msg { font-style: italic; font-size: 1.4rem; margin-bottom: 25px; opacity: 0; }
+.slide-item { margin: 12px 0; font-size: 1.1rem; opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+
+/* Page 2: Tribute Card */
+.tribute-card {
+    background: rgba(15, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    padding: 50px 35px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 380px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* Page 2: Tribute Card */
+.card-glow { position: relative; }
+
+.script-name { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 20px; }
+.card-reveal { opacity: 0; transform: translateY(15px); transition: all 0.9s ease; }
+.traits-group { margin: 30px 0; font-weight: 600; }
+.footer-note { margin-bottom: 30px; line-height: 1.6; }
+
+/* Buttons */
+.glass-btn {
+    margin-top: 30px;
+    padding: 12px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.red-btn {
+    background: #9b0000;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Page 3: Error Glitch */
+.error-mode { background: rgb(82, 12, 12) !important; color: #ff3e3e; }
+.glitch-text {
+    font-size: 6rem;
+    font-weight: 900;
+    position: relative;
+    animation: glitchAnim 0.2s infinite;
+}
+
+
+@keyframes glitchAnim {
+    0% { transform: translate(0); text-shadow: 2px 2px #fff; }
+    50% { transform: translate(-3px, 2px); text-shadow: -2px -2px #00fff2; }
+    100% { transform: translate(3px, -2px); }
+}
+
+/* Page 4: Terminal */
+.terminal-mode { background: #fdb7b7de !important; }
+.terminal-msg { font-family: 'JetBrains Mono', monospace; color: #000000; font-size: 1.5rem; margin-bottom: 20px; }
+.terminal-btn {
+    background: #e232b6;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 10px 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 30px;
+    box-shadow: 0 0 15px #1e1f1e;
+}
+
+/* Interaction Classes */
+.reveal { opacity: 1 !important; transform: translateY(0) !important; }
